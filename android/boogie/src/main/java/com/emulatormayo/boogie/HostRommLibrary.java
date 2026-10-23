@@ -49,9 +49,8 @@ public final class HostRommLibrary {
  }
  public HostRommLibrary(File files,BooleanSupplier cancelled)throws Exception {
   this.files=files.getCanonicalFile();this.cancelled=cancelled;
-  File session=new File(files,"romm-session.json");
-  if(!session.isFile()){base="";cookie="";localOnly=true;accountKey=BoogieIntegration.LOCAL_ACCOUNT;return;}
-  JSONObject config=new JSONObject(new String(readBounded(session,32768),StandardCharsets.UTF_8));
+  JSONObject config=BoogieIntegration.rommSession();
+  if(config==null){base="";cookie="";localOnly=true;accountKey=BoogieIntegration.LOCAL_ACCOUNT;return;}
   String raw=config.optString("rommServer","").trim();cookie=config.optString("rommCookie","");
   URI uri=new URI(raw);String path=uri.getRawPath();
   if(!Arrays.asList("http","https").contains(uri.getScheme())||uri.getHost()==null||uri.getRawUserInfo()!=null||uri.getRawQuery()!=null||uri.getRawFragment()!=null||uri.getPort()<-1||uri.getPort()>65535||raw.length()>2048||raw.chars().anyMatch(c->c<32||c==127)||path!=null&&(path.contains("%")||path.contains("\\")||Arrays.asList(path.split("/",-1)).contains("..")))throw new IOException("Configure a valid RomM server for this host.");
@@ -111,6 +110,8 @@ public final class HostRommLibrary {
   File game=File.createTempFile("game-",".pending",files),metadata=File.createTempFile("current-",".pending",files);privateFile(game);privateFile(metadata);
   try{
    try(InputStream in=new FileInputStream(expected);FileOutputStream out=new FileOutputStream(game)){byte[] bytes=new byte[65536];int n;while((n=in.read(bytes))!=-1){check();out.write(bytes,0,n);}out.getFD().sync();}
+   // Keys here identify an account cache and ROM content; neither authorizes access.
+   // Game.json() builds a fresh allowlist and cannot serialize the native session cookie.
    JSONObject record=prepared.game.json().put("schema",1).put("accountKey",accountKey).put("gameKey",prepared.gameKey).put("savedAt",System.currentTimeMillis());
    try(FileOutputStream out=new FileOutputStream(metadata)){out.write(record.toString().getBytes(StandardCharsets.UTF_8));out.getFD().sync();}check();return new Activation(game,metadata,prepared);
   }catch(Exception e){game.delete();metadata.delete();throw e;}

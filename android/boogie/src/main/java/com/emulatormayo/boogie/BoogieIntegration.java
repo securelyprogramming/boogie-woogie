@@ -15,6 +15,9 @@ import java.util.*;
 public final class BoogieIntegration {
     private BoogieIntegration() {}
     static boolean rommConnected;
+    private static volatile JSONObject rommSession;
+    static boolean hasRommSession(){return rommSession!=null;}
+    static JSONObject rommSession(){return rommSession;}
     public static File storage(Context context) {
         File root = new File(context.getApplicationContext().getFilesDir(), "boogie-woogie");
         if (!root.isDirectory() && !root.mkdirs()) throw new IllegalStateException("Cannot open co-op storage");
@@ -31,14 +34,14 @@ public final class BoogieIntegration {
             URI uri = new URI(server);
             if (!Arrays.asList("https", "http").contains(uri.getScheme()) || uri.getHost() == null || uri.getUserInfo() != null || uri.getQuery() != null || uri.getFragment() != null || server.length() > 2048 || cookie == null || cookie.isEmpty() || cookie.length() > 16384 || cookie.chars().anyMatch(c -> c < 32 || c == 127)) throw new IOException();
             // Native library validates the same server again before every authenticated operation.
-            HostRommLibrary.atomicBytes(new File(storage(context), "romm-session.json"), new JSONObject()
-                .put("rommServer", server).put("rommCookie", cookie).toString().getBytes(StandardCharsets.UTF_8));
+            rommSession = new JSONObject().put("rommServer", server).put("rommCookie", cookie);
         rommConnected = true;
         } catch (Exception error) { throw new IllegalArgumentException("Connect to RomM before opening co-op."); }
     }
     public static void clearRomm(Context context) {
+        rommSession = null;
         File root = storage(context);
-        new File(root, "romm-session.json").delete();
+        new File(root, "romm-session.json").delete(); // Remove an older preview copy, if present.
         // Forget the active pointer, retaining account caches and all checkpoints.
         try { File record = new File(root, "current-game.json"); JSONObject active = new JSONObject(new String(HostRommLibrary.readBounded(record, 8192), StandardCharsets.UTF_8));
             if (!LOCAL_ACCOUNT.equals(active.optString("accountKey"))) { record.delete(); new File(root, "game.nes").delete(); }

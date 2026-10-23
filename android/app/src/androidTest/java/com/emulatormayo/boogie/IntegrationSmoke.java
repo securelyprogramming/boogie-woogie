@@ -35,7 +35,18 @@ public final class IntegrationSmoke extends Instrumentation {
             for (String address : bad) { boolean rejected = false; try { BoogieIntegration.pairing(new JSONObject(raw.toString()).put("baseUrl", address)); } catch (Exception expected) { rejected = true; } check(rejected, "Unsafe broker origin accepted"); }
             File source = new File(root, "original.nes"); byte[] rom = new byte[16 + 16384]; rom[0]='N';rom[1]='E';rom[2]='S';rom[3]=26;rom[4]=1;
             Files.write(source.toPath(), rom); BoogieIntegration.importLocal(sandbox, source, "Original test fixture");
-            File files = BoogieIntegration.storage(sandbox); HostRommLibrary.Prepared selected = HostRommLibrary.current(files);
+            File files = BoogieIntegration.storage(sandbox);
+            JSONObject extraFields = new JSONObject().put("id",1).put("name","Synthetic fixture").put("fs_name","fixture.nes").put("platform_slug","nes")
+                .put("rommCookie","synthetic-secret").put("password","synthetic-secret").put("apiToken","synthetic-secret");
+            JSONObject gameFields = new HostRommLibrary.Game(extraFields).json();
+            check(gameFields.length()==7 && !gameFields.toString().contains("synthetic-secret"),"Game metadata retained credentials or unknown fields");
+            JSONObject activeFields = new JSONObject(new String(Files.readAllBytes(new File(files,"current-game.json").toPath()),java.nio.charset.StandardCharsets.UTF_8));
+            check(activeFields.length()==11 && activeFields.getString("accountKey").matches("[a-f0-9]{64}") && activeFields.getString("gameKey").matches("sha256:[a-f0-9]{64}"),"Active metadata schema changed");
+            BoogieIntegration.connectRomm(sandbox,"https://example.invalid/","synthetic_session=not-a-real-cookie");
+            check(BoogieIntegration.hasRommSession()&&!new File(files,"romm-session.json").exists(),"Native cookie persisted to disk");
+            BoogieIntegration.clearRomm(sandbox);
+            check(!BoogieIntegration.hasRommSession(),"Native session survived clear");
+            HostRommLibrary.Prepared selected = HostRommLibrary.current(files);
             check(selected != null && BoogieIntegration.LOCAL_ACCOUNT.equals(selected.accountKey), "Local import identity incorrect");
             check(Arrays.equals(rom, Files.readAllBytes(source.toPath())), "Import changed source document");
             HostRommLibrary library = new HostRommLibrary(files, () -> false);
