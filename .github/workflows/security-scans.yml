@@ -55,6 +55,7 @@ jobs:
 
   security-results:
     needs: security
+    if: ${{ always() && needs.security.result != 'skipped' }}
     runs-on: ubuntu-latest
     permissions:
       actions: read

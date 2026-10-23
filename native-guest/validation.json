@@ -27,11 +27,26 @@
     "build-sdl3.sh": "0278641482ca5a5a2e2b865889983abf0cd1104817ca65b057e4db2e4c432ae6",
     "controller_profiles.py": "586ae23354d4f3f7793eafcbcc8144cee32dc5b42c47ff7ca8b386462ee692a3",
     "fixtures/boogie-original-cover.json": "a310fe4e811ff30e9aec8c23e43417b85c67fbe25b5041b32d43cddd9015b9bf",
-    "requirements-linux-x86_64.lock": "281cce7d6309312000c3849752faf89751f109afa324952cb83c32585e23b537",
-    "requirements.txt": "f0592457cf737bd86524d9bdcc61f18d32df00ada657dfe67e86ade194413ed4",
+    "requirements-linux-x86_64.lock": "f9f1137f8fb784231a4b7505c6e3797f69b570fc50615ef84da58911ab2dde4c",
+    "requirements.txt": "a427d1579a73681eda3bed8eaef8edd50c93773e27f85e12acca6594d044e23b",
     "test_boogie.py": "6d80e1132a37e5e4b3ab224638fdb693a7993b50d3ca09cf4e9c3bbac2a23a3e",
     "test_boogie_appearance.py": "1a7e9d1e048af8df2fc7e06ab424bd657eee8cbd0e257f61201aea040761cb30",
     "test_boogie_ui.py": "fa19c38dbe36304e1d4fbacf70ca855dba6546963ce6ad4a2f9f4defef3b0bbc",
     "test_standalone.py": "459afc6524a382bb17d346a9a1fcb354822236778a76ca0dbcdfbe793bd396fe"
+  },
+  "securityDependencyUpdate": {
+    "aiohttp": "3.14.4",
+    "officialRelease": "https://pypi.org/project/aiohttp/3.14.4/",
+    "upstreamAdvisory": "https://github.com/aio-libs/aiohttp/security/advisories/GHSA-2g87-pp6c-29x5",
+    "linuxWheelSha256": "c5e93ab6e6330dce40f5b43996f1fc5f2543296d263a5e4b59ff09e73870b7d8",
+    "allOtherPinsPreserved": true,
+    "freshCompleteHashEnforcedLinuxInstall": true,
+    "linuxPython312SuitePassed": 31,
+    "realDtlsSctpVp8OpusPassed": true,
+    "tlsPinNoRedirectResponseBoundPassed": true,
+    "sdlSelfTestPassed": true,
+    "apiChangesRequired": false,
+    "macOSDependencyUpdateRetested": false,
+    "sdlOrCoreChanged": false
   }
 }
