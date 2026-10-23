@@ -1,0 +1,2 @@
+# Build-time archive reader; not required by guests or the signaling broker.
+py7zr==1.0.0

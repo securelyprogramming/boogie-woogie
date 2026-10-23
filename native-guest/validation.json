@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "scope": "Standalone native guest source extraction",
+  "headlessTests": {
+    "linuxX86_64Python312": 31,
+    "macOSArm64DevelopmentRuntime": 31
+  },
+  "sdlSelfTestLinux": true,
+  "sdlSelfTestMacOS": true,
+  "sdlVersionTestedLinux": "3.2.28",
+  "physicalExtractedGuestDeckAndroidTrial": "pending",
+  "historicalPrototypeDeckAndroidPlayer2OwnerConfirmed": true,
+  "windowsAcceptance": "pending",
+  "freshSteamOsInstall": "pending",
+  "containsRuntimeBinaries": false,
+  "containsCoresRomsSavesPairingOrCredentials": false,
+  "sourceFilesSha256": {
+    ".gitignore": "59440f319d752372ec023481f442c89737e180b332ef11233c73ff19136b021c",
+    "README.md": "0ed2dfad2cc386a070ba7b797ef66a80805775b537cbd034515dd37cc40467f9",
+    "assets/backgrounds/emulatormayo.svg": "eb0f3f14cbcfb8dbf3a4d69ca8ccd49518bf3258d5f74ab0c6ff0fddd14a527b",
+    "assets/backgrounds/rommayo.svg": "cddedde7291ee20319484f030b5c6383927d0024d2c07ea5568cac79caa75cf3",
+    "boogie_appearance.py": "df3f8e48581bf744dd241545a3d322ce917320ed2d3511a5d802ad16315bcc57",
+    "boogie_guest.py": "cdd364f32c7215dd7ae1dfb6c2e6d923f188bc5ad0387a1a1b06ad87465ba251",
+    "boogie_protocol.py": "464f7c154c9f04a38566cdc5a0adde0eae8df1d750bbbb57fe116bd36cc74748",
+    "boogie_sdl.py": "1bc57581270f1d3f2b001ea27a54c1ea7fff6a8c610a8026a4e9c52c71a99249",
+    "boogie_ui.py": "1c08651502931dbb8d7785242cf95aa64a59b10ef5f32a6c1b24e82ccc3d9785",
+    "build-sdl3.sh": "0278641482ca5a5a2e2b865889983abf0cd1104817ca65b057e4db2e4c432ae6",
+    "controller_profiles.py": "586ae23354d4f3f7793eafcbcc8144cee32dc5b42c47ff7ca8b386462ee692a3",
+    "fixtures/boogie-original-cover.json": "a310fe4e811ff30e9aec8c23e43417b85c67fbe25b5041b32d43cddd9015b9bf",
+    "requirements-linux-x86_64.lock": "281cce7d6309312000c3849752faf89751f109afa324952cb83c32585e23b537",
+    "requirements.txt": "f0592457cf737bd86524d9bdcc61f18d32df00ada657dfe67e86ade194413ed4",
+    "test_boogie.py": "6d80e1132a37e5e4b3ab224638fdb693a7993b50d3ca09cf4e9c3bbac2a23a3e",
+    "test_boogie_appearance.py": "1a7e9d1e048af8df2fc7e06ab424bd657eee8cbd0e257f61201aea040761cb30",
+    "test_boogie_ui.py": "fa19c38dbe36304e1d4fbacf70ca855dba6546963ce6ad4a2f9f4defef3b0bbc",
+    "test_standalone.py": "459afc6524a382bb17d346a9a1fcb354822236778a76ca0dbcdfbe793bd396fe"
+  }
+}

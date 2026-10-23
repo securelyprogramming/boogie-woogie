@@ -1,0 +1,27 @@
+plugins { id 'com.android.library' }
+layout.buildDirectory = rootProject.layout.buildDirectory.dir('boogie')
+android {
+    namespace 'com.emulatormayo.boogie'
+    compileSdk 36
+    defaultConfig { minSdk 29; testInstrumentationRunner 'com.emulatormayo.boogie.IntegrationSmoke' }
+    buildFeatures { buildConfig true }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    sourceSets.main.assets.srcDir(layout.buildDirectory.dir('generated/assets'))
+    androidResources { noCompress += ['data', 'wasm'] }
+}
+def prepareAssets = tasks.register('prepareBoogieAssets', Sync) {
+    from('../../assets') { into 'boogie' }
+    from('../../runtime/data') { exclude 'cores/**'; into 'boogie/data' }
+    from('../../runtime/data/cores') { include 'fceumm-legacy-wasm.data', 'README.md'; into 'boogie/data/cores' }
+    from('../../runtime/LICENSE') { into 'boogie' }
+    from('../../runtime/third-party') { into 'boogie/third-party' }
+    into(layout.buildDirectory.dir('generated/assets'))
+    doFirst {
+        if (!file('../../runtime/data/loader.js').isFile()) throw new GradleException('Run python3 scripts/prepare-runtime.py from the Boogie Woogie checkout first.')
+    }
+}
+tasks.named('preBuild').configure { dependsOn prepareAssets }
+dependencies {
+    implementation 'androidx.webkit:webkit:1.14.0'
+    implementation 'androidx.activity:activity:1.11.0'
+}

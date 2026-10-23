@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.sdl3/
+.sdl3-source/
+.sdl3-build/
+*.private.json
+guest.json
+host.json
+pairing.json
+*.pem
+*.key
+*.p12

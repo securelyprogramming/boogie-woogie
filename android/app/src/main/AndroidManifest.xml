@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application android:label="Boogie Woogie" android:theme="@android:style/Theme.Material.NoActionBar" android:icon="@drawable/ic_boogie" android:allowBackup="false" android:usesCleartextTraffic="false">
+        <activity android:name="com.emulatormayo.boogie.LauncherActivity" android:exported="true" android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout|uiMode">
+            <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+        </activity>
+    </application>
+</manifest>
