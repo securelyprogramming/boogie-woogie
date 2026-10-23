@@ -16,7 +16,11 @@ python3.12 -m venv .venv
 ```
 
 The lock pins the tested Linux CPython 3.12 wheels, including all media and Qt
-image-decoder dependencies. Other platforms need their own validated wheel lock;
+image-decoder dependencies. It pins aiohttp **3.14.4**, the patched release
+identified by [the upstream advisory](https://github.com/aio-libs/aiohttp/security/advisories/GHSA-2g87-pp6c-29x5); its wheel hash comes from the
+[official PyPI release](https://pypi.org/project/aiohttp/3.14.4/). The complete
+Linux lock was installed into a fresh isolated target with hash enforcement,
+and all 31 guest tests plus the SDL self-test passed using this version. Other platforms need their own validated wheel lock;
 `requirements.txt` records the pinned direct dependencies for development. The
 Linux lock must not be used as a Windows/macOS lock.
 
@@ -118,7 +122,9 @@ own temporary servers; the public CLI rejects loopback pairing.
 The preceding private Linux x86_64 / Steam Deck prototype was owner-tested with
 Android Player 1 and native Deck Player 2. This extracted guest has passed source,
 headless SDL and local transport tests on Linux x86_64 and macOS development
-runtimes. A fresh physical Deck/Android trial of this exact source revision is
+runtimes. The aiohttp security dependency update was rechecked with a fresh full
+Linux lock installation; the macOS development results predate that dependency
+update. A fresh physical Deck/Android trial of this exact source revision is
 still pending. macOS desktop hardware acceptance, Windows packaging/controllers,
 and fresh-install SteamOS dependency setup remain pending. See [validation
 status](validation.md) before making broader device claims.
